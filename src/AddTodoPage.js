@@ -2,7 +2,7 @@ import React from 'react'
 import {useEffect, useState} from 'react';
 import { Button , FormControl , Input, InputLabel } from '@material-ui/core';
 import Task from "./Task"
-import {getTodos, addTodoToDatabase } from './database/todos'
+import {getTodos, addTodoToRunningTodoDatabase } from './database/runningTodos'
 
 function AddTodoPage() {
 
@@ -21,7 +21,7 @@ function AddTodoPage() {
   
     const addTodo = (event) =>{
       event.preventDefault(); //it will prevent the refresh 
-      addTodoToDatabase(input).then( (todo) => {
+      addTodoToRunningTodoDatabase(input).then( (todo) => {
         setRefresh(true);
         setInput(""); //once hit enter or submit button it will clear the input text area
       }).catch(alert);

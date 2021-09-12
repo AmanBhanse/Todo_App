@@ -2,23 +2,27 @@ import React from 'react'
 import {List , ListItemText , ListItemAvatar  , Avatar ,ListItem,ListItemSecondaryAction,IconButton }from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Delete';
 import DoneIcon from '@material-ui/icons/Done';
-import {deleteTodoFromDatabase } from './database/todos'
-import { green } from '@material-ui/core/colors';
+import {deleteTodoFromrunningTodoDatabase , convertRunningTodoToCompletedTdo} from './database/runningTodos'
+import { green , yellow } from '@material-ui/core/colors';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 function Task(props) {
     
     const deleteTodo = () => {
-        deleteTodoFromDatabase(props.todo.id).finally( ()=> { props.setRefresh(true)});
+      deleteTodoFromrunningTodoDatabase(props.todo.id).finally( ()=> { props.setRefresh(true)});
     }
     
+    const moveTodoFromRunningToCompletedTodoDatabase=()=>{
+      convertRunningTodoToCompletedTdo(props.todo.id).finally( ()=> { props.setRefresh(true)});
+    }
     
     return (
         <div>
             <List>
             <ListItem>
                   <ListItemAvatar>
-                    <Avatar>
-                      O
+                    <Avatar style={{ color: '#fff',backgroundColor: yellow[800]}}>
+                      <AssignmentIcon  />
                     </Avatar>
                   </ListItemAvatar>
                   <ListItemText
@@ -28,7 +32,7 @@ function Task(props) {
                     <IconButton onClick={deleteTodo} edge="end" aria-label="delete">
                       <DeleteIcon color="error" />
                     </IconButton>
-                    <IconButton edge="end" aria-label="add">
+                    <IconButton onClick={moveTodoFromRunningToCompletedTodoDatabase} edge="end" aria-label="addToCompletedList">
                       <DoneIcon style={{ color: green[500] }} />
                     </IconButton>
                   </ListItemSecondaryAction>
